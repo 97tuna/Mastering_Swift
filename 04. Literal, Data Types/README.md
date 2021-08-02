@@ -131,3 +131,35 @@
     // 정수형 타입보다 더 많이 저장할 수 있음. Int보다 더 많이 저장
     // 메모리의 크기에 따라서 소수점의 정확도가 달라짐
     ```
+
+- Boolean
+
+    ```swift
+    let valid1 = true // Bool로 설정
+    let valid2 = True // 컴파일 에러
+
+    valid1 = false
+    let valid3: Bool = 0 // 0은 에러, false는 가능, 0은 Int로 swift는 인식
+
+    // 기본적으로 has 또는 is를 붙여서 변수의 이름을 만듦.
+    let str = ""
+    str.isEmpty // 문자열이 비어있으면 true반환
+    ```
+
+- Strings and Characters
+
+    ```swift
+    Hi There // 문자열이 아님
+    "Hi There" // 문자열, 큰따옴표로 감싸야함
+    "123" // 문자열임, 숫자이지만 큰 따옴표로 감싸져있기 때문에 문자열임
+    123 // 숫자
+    "3" // 문자열
+
+    let str = "Hi"
+    print(type of: str) // String임
+
+    let ch: Character = 'c' // 문자임
+    let ch1: Character = 'cc' // 컴파일 오류, 문자가 두개 있기 때문에 문자가 아님
+
+    let emp: Character = "" // 빈문자열은 에러, " "공백으로 표기해야함.
+    ```
