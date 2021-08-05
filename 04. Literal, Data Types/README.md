@@ -164,3 +164,45 @@
     let emp: Character = "" // 빈문자열은 에러, " "공백으로 표기해야함.
     ```
 
+- Type Inference
+
+    ```swift
+    let num = 987
+    type(of : num) // Int.type -> 자료형을 설정하지 않으면 알아서 설정
+    // Int가 정수를 가장 빠르게 처리하기 때문에 Int로 설정 
+
+    let num1 = 11.5
+    type(of : num1) // Double.type
+
+    let str1 = "HI"
+    type(of : str1) // String.type
+
+    let a = true
+    type(of : a) // Bool.type
+
+    로 자동으로 설정
+
+    let val // 오류
+    // 1. 메모리 공간 파악을 해야해서 자료형 선언 확인
+    // 2. 직접 판단해야해서 초기값 확인
+    // 3. 오류
+    ```
+
+    - 100 → Int
+    - 1.11 → Double
+    - "HI" → String
+    - true → Bool
+    - false → Bool
+- Type Annotation
+
+    ```swift
+    let varName: Type = val // 로 선언
+    // 두개의 자료형 지정은 불가
+
+    let num: Int = 10
+
+    let val: Float // 초기화 하지 않아도 가능
+    val = 10.5
+
+    let ch: Charachter = "a" // 컴파일 시간을 줄여줌 -> Type Annotation을 할 때!
+    ```
