@@ -193,6 +193,7 @@
     - "HI" → String
     - true → Bool
     - false → Bool
+
 - Type Annotation
 
     ```swift
@@ -205,4 +206,70 @@
     val = 10.5
 
     let ch: Charachter = "a" // 컴파일 시간을 줄여줌 -> Type Annotation을 할 때!
+    ```
+    
+- Type Safety
+
+    Swift는 형식 안정성을 위해 자료형을 엄격히 다룸!
+
+    ```swift
+    let ch: Character = 123 // 오류!
+    let num: Int = 1.23 // 오류!
+
+    let num1: Int8 = a // 오류!
+    let num2: Int64 = a // 오류!, 자료형의 이름이 다르면 호환 불가
+
+    let a = 15
+    let b = 17.23
+    let res = a + b // 계산이 불가, 타입이 맞지 않기 때문
+    ```
+
+    ```swift
+    let rate: Int = 1.34 // 오류, 미리 값을 수정할 수 있도록 오류 제시
+    let rate1 = 1.54 // Double로 형식 설정
+    let amount = 10_000_000
+
+    let result = rate * Double(amount) // result -> Double로 실행
+
+    ```
+
+- Type Conversion
+
+    Type Conversion VS Type Casting
+
+    > Type Conversion는 메모리에 저장된 값을 다른 형식으로 변경 후 저장.
+
+    > Type Casting은 메모리에 저장된 값은 유지, 컴파일러가 다른 형식으로 사용하도록 함.
+
+    ```swift
+    let a = 123
+    let b = 1.23
+    a + b // 오류
+
+    Double(a) + b // 123.0 + 1.23
+    a + Int(b) // 123 + 1
+    // 서로 다른 결과
+
+    let c = Int8(a) // 이것이 Type Conversion
+
+    let d = Int.max
+    let e = Int(d) // 컴파일 에러, 값을 저장할 공간이 충분하지 않음
+
+    let str = "123"
+    let num = Int(str) // 성공, 
+
+    let str = "HI"
+    let num = Int(str) // nil 발생
+    ```
+
+- Type Alias
+
+    ```swift
+    typealias Coordinate = Double
+
+    let latitude: Double = 12.3456
+    let longitude: Double = 78.9123
+
+    let latitude: Coordinate = 12.3456
+    let longitude: Coordinate = 78.9123
     ```
