@@ -546,9 +546,9 @@
     ```swift
     // UpperCamelCase로 이름 설정이 관례
     precedencegroup Name {
-        higherThan: LowerGroupName
-        lowerThan: HigherGroupName
-        associativity: associativity
+        higherThan: LowerGroupName // 현재 그룹보다 우선순위가 낮은것을 지정
+        lowerThan: HigherGroupName // 현재 그룹보다 우선순위가 높은것을 지정
+        associativity: associativity // 연산자의 결합규칙을 지정, left, right, none중 생략시 none기본 지정
     }
 
     // 3가지 모두 생략가능, higherThan, lowerThan둘 중 하나는 구현해야 함.
