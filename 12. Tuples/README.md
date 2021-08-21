@@ -19,4 +19,16 @@
         ```swift
         // 저장된 값 전문법으로 참조 가능
         Tuple.n // n은 0-based Index
+
+        data.0 // 0은 String, 1은 Int, 2는 String, 3은 Double
+        data.1
+        data.2
+        data.3
+
+        data.1 = 404 // let이기 때문에 변경 불가, var로 수정하면 가능
+        ```
+
+        ```swift
+        var mutableTuple = data // 값 형식이기 때문에 새로운 변수 선언시 복사 가능
+        mutableTuple.1 = 404 // 404로 변경
         ```
