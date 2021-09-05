@@ -201,3 +201,21 @@
     // 두 개 이상의 값을 전달할때는
     m[0, 0] // 이렇게 콤마로 구분하여 전달
     ```
+
+    ```swift
+    // 만약 범위를 넘어서는 index가 들어오게 된다면 어떻게 할 것인가?
+    import Foundation
+
+    struct Matrix {
+        var data = [[1, 2, 3],
+                    [4, 5, 6],
+                    [7, 8, 9]]
+        subscript(row: Int, col: Int) -> Int {
+            print(data.count)
+            if col > data.count && row > data.count {
+                precondition(true) // 이렇게 처리
+            }
+            return data[row][col]
+        }
+    }
+    ```
