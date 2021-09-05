@@ -219,3 +219,41 @@
         }
     }
     ```
+
+    - Dynamic Member Lookup 🥕
+
+    Python과의 호환을 위해 만들어진 문법
+    **영문법으로 접근하는 subscript에 대한 단축 문법임**
+
+    필수 subscript를 구현해야 함 → 하나의 Parameter받아야 함. → Dynamic Member로 선언 **필수**, 형식은 String
+
+    ```swift
+    @dynamicMemberLookup
+    struct Person {
+        var name: String
+        var age: Int
+        
+        subscript(dynamicMember member: String) -> String { // return형은 자유
+            switch member {
+            case "nameKey":
+                return name
+            case "ageKey":
+                return "\(age)"
+            default:
+                return "n/a"
+            }
+        }
+    }
+
+    let p = Person(name: "Lee", age: 13)
+    p.age
+    p.name
+
+    p[dynamicMember: "nameKey"]
+    p[dynamicMember: "ageKey"]
+
+    p.nameKey // 단축 문법 제공
+    p.ageKey
+    // 자동완성 제공 X, 오타 발생해도 컴파일러가 확인 불가
+    // 이론적으로 알아두는것이 좋음
+    ```
