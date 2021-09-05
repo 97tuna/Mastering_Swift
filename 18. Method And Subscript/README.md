@@ -112,3 +112,92 @@
 
     위 코드의 static func printPi()를 class func printPi() 하면 가능
     ```
+
+- Subscript
+
+    ```swift
+    instance[index]
+    instance[key]
+    instance[range]
+    ```
+
+    ```swift
+    let list  = ["A", "B", "C"]
+
+    list[0] // Subscript
+    ```
+
+    ```swift
+    subscript(parameter) -> ReturnType { // 대부분 2개 이하 parameter
+        get {
+            return expression // Return과 저장하는 Type이 같이 사용, 생략 불가
+        }
+        set(name) {
+            statement
+        }
+    } // get과 set을 같이 구현하면 subscript에서 읽고 쓰기 가능.
+    ```
+
+    ```swift
+    class List {
+        var data = [1, 2, 3]
+        
+        subscript(index: Int) -> Int {
+            get {
+                return data[index]
+            }
+            set {
+                data[index] = newValue
+            }
+        }
+    }
+
+    var l = List()
+    l[0] // get블록 실행
+
+    l[1] = 123 // set블록 실행
+    l[1]
+
+    l[0, 1] // 파라미터 일치 subscript가 없기 때문에 오류
+    l["Strong"] // 에러, Type 불일치
+    ```
+
+    ```swift
+    class List {
+        var data = [1, 2, 3]
+        
+        subscript(i index: Int) -> Int {
+            get {
+                return data[index]
+            }
+            set {
+                data[index] = newValue
+            }
+        }
+    }
+
+    var l = List()
+    l[i: 0] // get블록 실행
+
+    l[i: 1] = 123 // set블록 실행
+    l[i: 1]
+    // Argument Label 안쓰면 에러, subscript에서는 잘 쓰지 않는다.
+    ```
+
+    ```swift
+    struct Matrix {
+        var data = [[1, 2, 3],
+                    [4, 5, 6],
+                    [7, 8, 9]]
+        subscript(row: Int, col: Int) -> Int {
+            return data[row][col] // 바로 return, 읽기 전용 subscript
+        }
+    }
+
+    let m = Matrix()
+    m[0][0] // 에러, 두개의 파라미터지만 에러
+    // 첫번째 subscript가 문제없이 평가된다면, 정수를 return하는데 이 정수에서 다시 subscript를 실행할 수 없기 때문에 에러가 발생한다.
+
+    // 두 개 이상의 값을 전달할때는
+    m[0, 0] // 이렇게 콤마로 구분하여 전달
+    ```
