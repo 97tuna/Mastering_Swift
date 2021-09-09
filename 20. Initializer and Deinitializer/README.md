@@ -230,3 +230,42 @@
         } // SuperClass와 완전히 동일한 상태로 구현
     }
     ```
+
+- Initializer Delegation
+
+    초기화 코드에 대한 중복 제거 및 효율적으로 초기화 하기 위해 사용
+
+    ```swift
+    struct Size {
+       var width: Double
+       var height: Double
+
+       init(w: Double, h: Double) {
+          width = w
+          height = h
+       }
+
+       init(value: Double) {
+          width = value
+          height = value
+       }
+    } // 문법적 오류는 없으나 초기화 규칙이 바뀌면 모든 Initializer수정해야 함.
+    ```
+
+    모든 속성 초기화 Initializer를 구현하고 다른 Initializer를 호출하는 방식이 좋음
+
+    ```swift
+    struct Size {
+       var width: Double
+       var height: Double
+
+       init(w: Double, h: Double) {
+          width = w
+          height = h
+       }
+
+       init(value: Double) {
+          self.init(w: value, h: value)
+       }
+    }
+    ```
