@@ -269,3 +269,56 @@
        }
     }
     ```
+
+    - Class
+
+        상속을 지원하고 모든 Initializer가 순서대로 호출되도록 구현해야 함.
+
+        ```swift
+        Rule
+
+        1. designated initializer는 반드시 SuperClass의 designated initializer를 호출해야 합니다.
+        	Delegate Up
+        2. convenience initializer는 동일한 클래스의 initializer를 호출해야 합니다.
+        	Delegate Across
+        3. convenience initializer를 호출했을때, 최종적으로 동일한 Class의 designated initializer가 호출되어야 합니다.
+        ```
+
+        ```swift
+        class Figure {
+            let name: String
+            
+            init(name: String) {
+                self.name = name
+            }
+            
+            convenience init() { // Delegate Across
+                self.init(name: "unKnown")
+            }
+        }
+
+        class Rectangle: Figure {
+            var width = 0.0
+            var height = 0.0
+            
+            init(n: String, w: Double, h: Double) {
+                width = w
+                height = h
+                super.init(name: n) // Delegate Up
+            }
+            
+            convenience init(value: Double) {
+                self.init(n: "rect", w: value, h: value)
+            }
+        }
+
+        class Square: Rectangle {
+            convenience init(value: Double) {
+                self.init(n: "Square", w: value, h: value)
+            }
+            
+            convenience init() {
+                self.init(value: 0.0)
+            }
+        }
+        ```
