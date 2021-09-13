@@ -1,4 +1,4 @@
-# 20. Initializer and Deinitializer
+# 20. - Initializer and Deinitializer
 
 - Initializers
 
@@ -237,18 +237,18 @@
 
     ```swift
     struct Size {
-       var width: Double
-       var height: Double
+        var width: Double
+        var height: Double
 
-       init(w: Double, h: Double) {
-          width = w
-          height = h
-       }
+        init(w: Double, h: Double) {
+            width = w
+            height = h
+        }
 
-       init(value: Double) {
-          width = value
-          height = value
-       }
+        init(value: Double) {
+            width = value
+            height = value
+        }
     } // 문법적 오류는 없으나 초기화 규칙이 바뀌면 모든 Initializer수정해야 함.
     ```
 
@@ -256,17 +256,17 @@
 
     ```swift
     struct Size {
-       var width: Double
-       var height: Double
+        var width: Double
+        var height: Double
 
-       init(w: Double, h: Double) {
-          width = w
-          height = h
-       }
+        init(w: Double, h: Double) {
+            width = w
+            height = h
+        }
 
-       init(value: Double) {
-          self.init(w: value, h: value)
-       }
+        init(value: Double) {
+            self.init(w: value, h: value)
+        }
     }
     ```
 
@@ -278,9 +278,9 @@
         Rule
 
         1. designated initializer는 반드시 SuperClass의 designated initializer를 호출해야 합니다.
-        	Delegate Up
+            Delegate Up
         2. convenience initializer는 동일한 클래스의 initializer를 호출해야 합니다.
-        	Delegate Across
+            Delegate Across
         3. convenience initializer를 호출했을때, 최종적으로 동일한 Class의 designated initializer가 호출되어야 합니다.
         ```
 
@@ -322,3 +322,92 @@
             }
         }
         ```
+
+- Failable initializer
+
+    initializer는 실패를 허용하지 않음
+    컴파일 속성이 모두 초기화 된다는걸 코드로 보장 받아야 함.
+
+    실패하면 → nil return
+
+    ```swift
+    init?(parameter) {
+        initializaion // 옵셔널 형식으로 return, 실패하면 nil
+    }
+    init!(parameter) {
+        initializaion // 옵셔널 형식으로 강제 추출되어 return, 실패하면 crash
+    }
+    ```
+
+    ```swift
+    struct Position {
+        let x: Double
+        let y: Double
+        
+        init?(x: Double, y: Double) {
+            guard x >= 0.0, y >= 0.0 else {return nil} // 초기화 실패시 nil return
+            self.x = x
+            self.y = y
+        }
+        
+        init!(value: Double) {
+            guard value >= 0.0 else {return nil}
+            
+            self.x = value
+            self.y = value
+        }
+    }
+
+    var a = Position(x: 11, y: 22) // a는 optional Position
+
+    a = Position(x: -1, y: -2) // nil return
+
+    var b = Position(value: 12) // b는 optional Position
+
+    b = Position(value: -10) // crash 발생 x, 그냥 nil return
+
+    var c: Position = Position(value: 12) // 자동으로 언래핑
+
+    c = Position(value: -10) // c는 non-optional이기 때문에 IUO가 생성된 인스턴스를 강제 추출함, 바로 crash
+    ```
+
+    - ≈ 구현 규칙
+        1. initializer overloading
+
+            ```swift
+            Failable가 nonFailable 구분 x
+            ```
+
+            동일한 파라미터의 nonFailable initializer구현하면 에러
+
+            - nonFailable initializer에서는 !가 붙은 initializer만 호출 가능 → 실패하면 crash라 잘 안씀
+        2. nonFailable initializer는 다른 initializer를 부를 수 있다.
+        3. Failable initializer를 overloading했다면 상위 initializer에서 강제추출 연산자 사용해야 함.
+- Deinitializer
+
+    소멸자 → instance가 메모리에서 제거되기 전 부가적인 정리작업
+    Swift → ARC Memory관리방법 사용
+
+    ```swift
+    class Size {
+        var w = 0.0
+        var h = 0.0
+    }
+
+    class Position {
+        var x = 0.0
+        var y = 0.0
+    }
+
+    class Rect {
+        var origin = Position()
+        var size = Size()
+        // Rect instance가 제거되면 위의 두개도 제거됨.
+        deinit {
+            print("deinit \(self)")
+        }
+    }
+
+    var r: Rect? = Rect()
+    r = nil // Rect instance 제거
+    ```
