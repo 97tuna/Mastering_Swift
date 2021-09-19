@@ -119,3 +119,69 @@
         }
     } // static으로 선언돼있다고 해서 형식에서 static으로 꼭 선언해야 하는 것은 아님.
     ```
+    
+- Initializer Requirements
+
+    ```swift
+    protocol ProtocolName {
+        init(param) // Method와 동일하게 Body생략 후 사용
+        init?(param)
+        init!(param)
+    }
+    ```
+
+    ```swift
+    protocol Figure {
+        var name: String { get }
+        init(name: String) // n으로 바꾸면 오류.
+    }
+
+    struct Rectangle: Figure {
+        var name: String // 생성자를 만들어야할 것 같지만 생성 안해도 Protocol 만족
+    }
+    ```
+
+    ```swift
+    class Circle: Figure { // class는 상속을 고려, 모든 subclass에서 protocol 만족해야함.
+        var name: String
+        required init(n: String) { // 그래서 required init으로 구현해야 함.
+            name = n
+        }
+    }
+
+    // 예외 사항
+
+    final class Triangle: Figure { // final class는 더 이상 상속이 불가, 더 고려할 필요 없음.
+        var name: String
+        init(n: String) {
+            name = n
+        }
+    }
+    ```
+
+    ```swift
+    class Oval: Circle { // 상속이라 자동으로 요구사항 만족, Figure 채용이면 중복 -> 오류
+        var prop: Int
+        
+        init() {
+            prop = 0
+            super.init(n: "Oval")
+        }
+        
+        required convenience init(n: String) {
+            self.init()
+        }
+    }
+    ```
+
+    ```swift
+    protocol GrayScale {
+        init(white: Double) // ?도 가능
+    }
+
+    struct Color: GrayScale {
+        init?(white: Double) {
+            // 충족불가, !는 가능, 초기화 실패시 오류
+        }
+    }
+    ```
